@@ -19,17 +19,26 @@ public class NumberBreakdown_ {
         return new Object[][]{
                 {0, new int[][]{}},
                 {1, new int[][]{{1,0}}},
-                {10, new int[][]{{1,2}}}
+                //{10, new int[][]{{1,1}}},
         };
     }
     @Test
     public void execute() {
-
+        assertThat(getBreakdown(number)).isEqualTo(this.breakdown);
     }
 
     private int[][] getBreakdown(int number){
-        return null;
+        int numberOfDigits = ("" + number).length();
+        if (number==0) return new int[][]{};
+        return new int[][]{{number, units(number)}};
     }
 
+    private int tens(int number) {
+        return (number%100)/10;
+    }
+
+    private int units(int number) {
+        return (number%10);
+    }
 
 }

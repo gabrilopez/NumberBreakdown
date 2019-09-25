@@ -19,7 +19,11 @@ public class NumberBreakdown_ {
         return new Object[][]{
                 {0, new int[][]{}},
                 {1, new int[][]{{1,0}}},
-                //{10, new int[][]{{1,1}}},
+                {10, new int[][]{{1,1}}},
+                {11, new int[][]{{1,1},{1,0}}},
+                {3804, new int[][]{{3,3},{8,2},{4,0}}},
+                {1000, new int[][]{{1,3}}},
+                {1234, new int[][]{{1,3},{2,2},{3,1},{4,0}}},
         };
     }
     @Test
@@ -28,17 +32,41 @@ public class NumberBreakdown_ {
     }
 
     private int[][] getBreakdown(int number){
-        int numberOfDigits = ("" + number).length();
-        if (number==0) return new int[][]{};
-        return new int[][]{{number, units(number)}};
+            int numberOfDigits = ("" + number).length();
+            int numberOfZeros = findZeros(number);
+            int [][] numberBreakdown = new int[numberOfDigits-numberOfZeros][];
+            int index = 0;
+
+            while(number != 0) {
+                int quantity = powerOf(10, numberOfDigits-1);
+                int digit = number/quantity;
+                if (digit != 0) {
+                    numberBreakdown[index] = new int[]{digit, numberOfDigits-1};
+                    index++;
+                    number-=digit*quantity;
+                }
+                numberOfDigits--;
+
+            }
+            return numberBreakdown;
     }
 
-    private int tens(int number) {
-        return (number%100)/10;
+
+    private int powerOf(int base, int exponent) {
+        int res = 1;
+        for (int i = exponent; i > 0; i--){
+            res*=base;
+        }
+        return res;
     }
 
-    private int units(int number) {
-        return (number%10);
+    private int findZeros(int number){
+        int numberOfZeros = 0;
+        String numberString = number + "";
+        for (int i = 0; i < numberString.length(); i++){
+            if (numberString.charAt(i) == '0') numberOfZeros++;
+        }
+        return numberOfZeros;
     }
 
 }

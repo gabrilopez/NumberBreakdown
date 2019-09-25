@@ -34,28 +34,19 @@ public class NumberBreakdown_ {
     }
 
     private int[][] getBreakdown(int number){
-            int numberOfDigits = ("" + number).length();
+            int digitsLeft = ("" + number).length();
             int numberOfZeros = findZeros(number);
-            int [][] numberBreakdown = new int[numberOfDigits-numberOfZeros][];
+            int [][] numberBreakdown = new int[digitsLeft-numberOfZeros][];
 
-            int index = 0;
-            for (; numberOfDigits>0 ; numberOfDigits--){
-                int quantity = tenToPowerOf(numberOfDigits-1);
-                int digit = number/quantity;
+            for (; digitsLeft>0 ; digitsLeft--){
+                int positionValue = (int) Math.pow(10, digitsLeft-1);
+                int digit = number/positionValue;
                 if (digit != 0) {
-                    numberBreakdown[index++] = new int[]{digit, numberOfDigits-1};
-                    number -= digit*quantity;
+                    numberBreakdown[numberBreakdown.length-digitsLeft] = new int[]{digit, digitsLeft-1};
+                    number -= digit*positionValue;
                 }
             }
             return numberBreakdown;
-    }
-
-    private int tenToPowerOf(int exponent) {
-        int res = 1;
-        for (int i = exponent; i > 0; i--){
-            res*=10;
-        }
-        return res;
     }
 
     private int findZeros(int number){

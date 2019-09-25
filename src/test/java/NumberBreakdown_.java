@@ -24,6 +24,8 @@ public class NumberBreakdown_ {
                 {3804, new int[][]{{3,3},{8,2},{4,0}}},
                 {1000, new int[][]{{1,3}}},
                 {1234, new int[][]{{1,3},{2,2},{3,1},{4,0}}},
+                {4004, new int[][]{{4,3},{4,0}}},
+                {51004, new int[][]{{5,4},{1,3},{4,0}}},
         };
     }
     @Test
@@ -35,27 +37,23 @@ public class NumberBreakdown_ {
             int numberOfDigits = ("" + number).length();
             int numberOfZeros = findZeros(number);
             int [][] numberBreakdown = new int[numberOfDigits-numberOfZeros][];
-            int index = 0;
 
-            while(number != 0) {
-                int quantity = powerOf(10, numberOfDigits-1);
+            int index = 0;
+            for (; numberOfDigits>0 ; numberOfDigits--){
+                int quantity = tenToPowerOf(numberOfDigits-1);
                 int digit = number/quantity;
                 if (digit != 0) {
-                    numberBreakdown[index] = new int[]{digit, numberOfDigits-1};
-                    index++;
-                    number-=digit*quantity;
+                    numberBreakdown[index++] = new int[]{digit, numberOfDigits-1};
+                    number -= digit*quantity;
                 }
-                numberOfDigits--;
-
             }
             return numberBreakdown;
     }
 
-
-    private int powerOf(int base, int exponent) {
+    private int tenToPowerOf(int exponent) {
         int res = 1;
         for (int i = exponent; i > 0; i--){
-            res*=base;
+            res*=10;
         }
         return res;
     }
